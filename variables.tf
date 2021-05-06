@@ -29,3 +29,18 @@ variable "database_name" {
   default =  "EMRODEV"
 
 }
+
+variable "instance_class" {
+  description = "The instance type of the RDS instance."
+  default    = "db.m5.large"
+}
+
+variable "allocated_storage" {
+  description = "The allocated storage in gibibytes."
+  default     = 50
+}
+variable "multi_az" {
+  default     = false
+  description = "Specifies if the RDS instance is multi-AZ."
+}
+
