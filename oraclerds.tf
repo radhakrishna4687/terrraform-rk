@@ -15,13 +15,11 @@ resource "aws_db_subnet_group" "oracle-subnets" {
 
 #ORACLE DB 
 resource "aws_db_instance" "oracle" {
-  allocated_storage      = 50 # 100 GB of storage, gives us more IOPS than a lower number
+  allocated_storage      = var.allocated_storage  # 100 GB of storage, gives us more IOPS than a lower number
   engine                 = "oracle-ee"
   engine_version         = "19.0.0.0.ru-2021-01.rur-2021-01.r2"
-  instance_class         = "db.m5.large" # use micro if you want to use the free tier
+  instance_class         = var.instance_class  # use micro if you want to use the free tier
   identifier             = "oracledb"
-  #vpc_id                 = var.vpc_id
-  #subnets                = var.subnets
   name                   = var.database_name #It must be less than 8 characters  RDS name 
   # Make sure that database name is capitalized, otherwise RDS will try to recreate RDS instance every time
   username               = var.username        #Username of db
@@ -31,7 +29,7 @@ resource "aws_db_instance" "oracle" {
   db_subnet_group_name   = aws_db_subnet_group.oracle-subnets.name
   deletion_protection    = true
   backup_retention_period  = 15 #in days
-  multi_az               = "false" # set to true to have high availability: 2 instances synchronized with each other
+  multi_az               = var.multi_az  # set to true to have high availability: 2 instances synchronized with each other
   storage_type           = "gp2"
   apply_immediately      = true
   skip_final_snapshot    = true
